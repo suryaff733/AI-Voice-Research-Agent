@@ -80,7 +80,7 @@ export default function Home() {
             <Sparkles className="h-5 w-5 text-white" />
           </div>
           <span className="text-md font-bold tracking-wider uppercase bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
-            Research Universe
+            AI Voice Research Agent
           </span>
         </div>
         <div className="flex items-center space-x-4">
@@ -187,7 +187,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="relative z-10 border-t border-zinc-900/50 py-6 px-8 max-w-7xl mx-auto w-full text-center text-xs text-zinc-500 font-medium">
-        &copy; {new Date().getFullYear()} Research Universe Inc. Powered by Context.dev & OpenAI. All rights reserved.
+        &copy; {new Date().getFullYear()} AI Voice Research Agent Inc. Powered by Context.dev & OpenAI. All rights reserved.
       </footer>
     </div>
   );

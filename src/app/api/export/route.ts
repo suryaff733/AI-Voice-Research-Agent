@@ -8,10 +8,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Missing report or format' }, { status: 400 });
     }
 
-    const filename = `research_universe_${format}_${Date.now()}`;
+    const filename = `ai_voice_research_agent_${format}_${Date.now()}`;
 
     if (format === 'markdown') {
-      const content = `# Research Universe Report\n\n**Question:** ${report.question}\n\n**Answer:** ${report.answer}\n\n## Summary\n${report.summary}\n\n## Sources\n${report.sources.map((s: any) => `- [${s.title}](${s.url}) (Credibility: ${s.credibility.score}/100)`).join('\n')}\n`;
+      const content = `# AI Voice Research Agent Report\n\n**Question:** ${report.question}\n\n**Answer:** ${report.answer}\n\n## Summary\n${report.summary}\n\n## Sources\n${report.sources.map((s: any) => `- [${s.title}](${s.url}) (Credibility: ${s.credibility.score}/100)`).join('\n')}\n`;
       return new NextResponse(content, {
         headers: {
           'Content-Type': 'text/markdown',
@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Default mock response for PDF, PPT, Word
-    const textContent = `Research Universe document compiled in ${format.toUpperCase()} format.\nReport Topic: ${report.question}\nConfidence: ${report.confidence}%\n`;
+    const textContent = `AI Voice Research Agent document compiled in ${format.toUpperCase()} format.\nReport Topic: ${report.question}\nConfidence: ${report.confidence}%\n`;
     return new NextResponse(textContent, {
       headers: {
         'Content-Type': 'text/plain',
