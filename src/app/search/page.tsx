@@ -35,7 +35,11 @@ function SearchDashboardContent() {
 
   // Trigger search orchestration on query change
   useEffect(() => {
-    if (!query) return;
+    if (!query) {
+      setLoading(false);
+      setError('Please provide a valid search query.');
+      return;
+    }
 
     const fetchResearch = async () => {
       setLoading(true);
@@ -209,6 +213,15 @@ function SearchDashboardContent() {
 
         {/* Center column: Answers, Charts, Discrepancies, Chat (lg:col-span-6) */}
         <section className="lg:col-span-6 space-y-8">
+          {report.isFallback && (
+            <div className="rounded-2xl border border-amber-500/25 bg-amber-500/5 p-5 text-xs text-amber-400 font-medium flex items-start space-x-3 backdrop-blur-md">
+              <Sparkles className="h-4.5 w-4.5 shrink-0 mt-0.5 text-amber-400 animate-pulse" />
+              <div>
+                <span className="font-bold">Demo Mode Active:</span> The live web search API encountered an issue (likely missing or incorrect credentials/limits). We have served a sample report as a demonstration of the agent's capabilities.
+              </div>
+            </div>
+          )}
+
           {/* Main consensus answer */}
           <article className="rounded-2xl border border-zinc-850 bg-zinc-950/40 p-6 backdrop-blur-xl space-y-4">
             <div className="flex items-center space-x-2">

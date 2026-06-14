@@ -29,6 +29,7 @@ export interface ResearchReport {
     title: string;
   }>;
   related: string[];
+  isFallback?: boolean;
 }
 
 // Pre-packaged high-fidelity demo data for example queries to ensure stunning UX
@@ -226,9 +227,9 @@ export async function executeResearch(question: string): Promise<ResearchReport>
 
     // Generate basic chart points
     const charts: Array<{ name: string; [key: string]: string | number }> = [
-      { name: 'Sources Vetted', Count: processedSources.length },
+      { name: 'Sources Vetted', Score: processedSources.length },
       { name: 'Avg Credibility', Score: avgCred },
-      { name: 'Confidence', Percentage: finalConfidence },
+      { name: 'Confidence', Score: finalConfidence },
     ];
 
     // Dummy elements for generic query
@@ -263,6 +264,9 @@ export async function executeResearch(question: string): Promise<ResearchReport>
   } catch (err: any) {
     // Elegant fallback to AirPods demo if API fails or lacks key, to avoid blank screen
     console.error('Live research execution failed, serving high-fidelity demo report:', err);
-    return DEMO_REPORTS['airpods'];
+    return {
+      ...DEMO_REPORTS['airpods'],
+      isFallback: true,
+    };
   }
 }

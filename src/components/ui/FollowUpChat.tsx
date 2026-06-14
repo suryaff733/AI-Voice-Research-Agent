@@ -25,6 +25,33 @@ export default function FollowUpChat({ initialRelated = [], reportContext }: Fol
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const handleExport = async (format: 'pdf' | 'presentation') => {
+    if (!reportContext) return;
+    try {
+      const response = await fetch('/api/export', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ report: reportContext, format }),
+      });
+
+      if (!response.ok) throw new Error('Export trigger failed');
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `ai_voice_research_agent_${format}.${format === 'presentation' ? 'pptx' : 'pdf'}`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      a.remove();
+    } catch (err) {
+      console.error('Failed to download export from chat companion:', err);
+    }
+  };
+
   useEffect(() => {
     scrollToBottom();
   }, [messages, isTyping]);
@@ -67,10 +94,16 @@ export default function FollowUpChat({ initialRelated = [], reportContext }: Fol
           <h3 className="text-sm font-semibold text-white tracking-tight">AI Research Companion</h3>
         </div>
         <div className="flex space-x-2">
-          <button className="text-[10px] font-bold text-zinc-400 bg-zinc-900 border border-zinc-800 hover:text-white px-2 py-1 rounded flex items-center gap-1.5 transition-all">
+          <button
+            onClick={() => handleExport('presentation')}
+            className="text-[10px] font-bold text-zinc-400 bg-zinc-900 border border-zinc-800 hover:text-white px-2 py-1 rounded flex items-center gap-1.5 transition-all"
+          >
             <Presentation className="h-3 w-3" /> Slides
           </button>
-          <button className="text-[10px] font-bold text-zinc-400 bg-zinc-900 border border-zinc-800 hover:text-white px-2 py-1 rounded flex items-center gap-1.5 transition-all">
+          <button
+            onClick={() => handleExport('pdf')}
+            className="text-[10px] font-bold text-zinc-400 bg-zinc-900 border border-zinc-800 hover:text-white px-2 py-1 rounded flex items-center gap-1.5 transition-all"
+          >
             <FileDown className="h-3 w-3" /> PDF
           </button>
         </div>
