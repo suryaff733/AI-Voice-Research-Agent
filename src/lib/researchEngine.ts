@@ -155,6 +155,39 @@ const DEMO_REPORTS: Record<string, ResearchReport> = {
   }
 };
 
+function getUnsplashImagesForQuery(query: string): string[] {
+  const q = query.toLowerCase();
+  
+  const imagesDb = {
+    chat: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=500&auto=format&fit=crop&q=60', // Smartphone
+    code: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&auto=format&fit=crop&q=60', // Code on screen
+    workspace: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500&auto=format&fit=crop&q=60', // Desk
+    ai: 'https://images.unsplash.com/photo-1677442136019-21780efad99a?w=500&auto=format&fit=crop&q=60', // AI abstract
+    charts: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500&auto=format&fit=crop&q=60', // Business/charts
+    audio: 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=500&auto=format&fit=crop&q=60', // Headphones/microphone
+    voice: 'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=500&auto=format&fit=crop&q=60', // Microphone/studio
+    analytics: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=500&auto=format&fit=crop&q=60', // Presentation
+  };
+
+  const results: string[] = [];
+
+  if (q.includes('chat') || q.includes('whatsapp') || q.includes('messenger') || q.includes('phone') || q.includes('mobile')) {
+    results.push(imagesDb.chat, imagesDb.workspace);
+  } else if (q.includes('voice') || q.includes('audio') || q.includes('sound') || q.includes('speech') || q.includes('microphone')) {
+    results.push(imagesDb.voice, imagesDb.audio);
+  } else if (q.includes('build') || q.includes('code') || q.includes('app') || q.includes('program') || q.includes('software')) {
+    results.push(imagesDb.code, imagesDb.workspace);
+  } else if (q.includes('market') || q.includes('sale') || q.includes('revenue') || q.includes('profit') || q.includes('chart')) {
+    results.push(imagesDb.charts, imagesDb.analytics);
+  } else if (q.includes('ai') || q.includes('artificial') || q.includes('bot') || q.includes('agent')) {
+    results.push(imagesDb.ai, imagesDb.code);
+  } else {
+    results.push(imagesDb.workspace, imagesDb.code);
+  }
+
+  return results;
+}
+
 export async function executeResearch(question: string): Promise<ResearchReport> {
   const normQ = question.toLowerCase();
 
@@ -239,8 +272,9 @@ export async function executeResearch(question: string): Promise<ResearchReport>
     ];
 
     // Pull brand logo as default image fallback
+    const unsplashUrls = getUnsplashImagesForQuery(question);
     const images = processedSources.slice(0, 2).map((s, idx) => ({
-      url: `https://images.unsplash.com/photo-${1500000000000 + idx * 100000}?w=500&auto=format&fit=crop&q=60`,
+      url: unsplashUrls[idx] || 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500&auto=format&fit=crop&q=60',
       title: s.title,
     }));
 
