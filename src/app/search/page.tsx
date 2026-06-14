@@ -93,7 +93,7 @@ function SearchDashboardContent() {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `ai_voice_research_agent_${format}.${format === 'presentation' ? 'pptx' : format === 'pdf' ? 'pdf' : format === 'markdown' ? 'md' : format}`;
+      a.download = `context_research_engine_${format}.${format === 'presentation' ? 'pptx' : format === 'pdf' ? 'pdf' : format === 'markdown' ? 'md' : format}`;
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);

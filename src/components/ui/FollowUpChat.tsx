@@ -42,7 +42,7 @@ export default function FollowUpChat({ initialRelated = [], reportContext }: Fol
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `ai_voice_research_agent_${format}.${format === 'presentation' ? 'pptx' : 'pdf'}`;
+      a.download = `context_research_engine_${format}.${format === 'presentation' ? 'pptx' : 'pdf'}`;
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);
